@@ -1,6 +1,6 @@
 import mascotasModel from "../models/mascotas.js";
 
-class mascotasControler {
+class mascotasController {
   async create(req, res) {
     try {
       const data = await mascotasModel.create(req.body);
@@ -50,4 +50,4 @@ class mascotasControler {
   }
 }
 
-export default new mascotasControler();
+export default new mascotasController();

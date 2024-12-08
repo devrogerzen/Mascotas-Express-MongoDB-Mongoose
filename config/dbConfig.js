@@ -1,19 +1,21 @@
-import { MongoClient } from "mongodb";
+import mongoose from "mongoose";
 
 class dbClient {
   constructor() {
-    const queryString = `mongodb+srv://${process.env.USER_DB}:${process.env.PASS_DB}@${process.env.SERVER_DB}/?retryWrites=true&w=majority&appName=${process.env.NAME_DB}`;
-    this.client = new MongoClient(queryString);
-    this.connectarBD();
+    this.conectarBaseDatos();
+  }
+  async conectarBaseDatos() {
+    const queryString = `mongodb+srv://${process.env.USER_DB}:${process.env.PASS_DB}@${process.env.SERVER_DB}/${process.env.NAME_DB}?retryWrites=true&w=majority`;
+    await mongoose.connect(queryString);
+    console.log("Database connected");
   }
 
-  async connectarBD() {
+  async cerrarConexcion() {
     try {
-      await this.client.connect();
-      this.db = this.client.db('adopcion')
-      console.log("Conectado a la base de datos");
-    } catch (e) {
-      console.log(e.message);
+      await mongoose.disconnect();
+      console.log("Database disconnected");
+    } catch (error) {
+      console.log("Error al desconectar la base de datos", error);
     }
   }
 }
